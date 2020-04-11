@@ -1,27 +1,35 @@
 ---
-title: Bias & Variance
+title: Bias & Variance in Machine Learning
 date: 2020-04-10 -0400
 categories: [Machine Learning, Theory]
 tag: [machine learning]
+mathjax: true
 ---
 
+{% include mathjax.html %}
 
 In this article, we focus on studying the relationship between out-of-sample error, bias and varaince.
 
 We assume that the target function is a deterministic function $f(\mathbf{x})$. We randomly draw a dataset $\mathcal{D}$ from input space $\mathcal{X}$.
 
 Given a dataset $\mathcal{D}$, we have the final chosen hypothesis denoted by $g^{(\mathcal{D})}(\mathbf{x})$. Then out-of-sample is given by
+
+
 $$
 E_{\text{out}}(g^{\mathcal{D}})=\mathbf{E}_{\mathbf{x}}[(g^{\mathcal{D}}(\mathbf{x})-f(\mathbf{x}))^2].
 $$
 
 The out-of-sample error $E_{\text{out}}(g^{\mathcal{D}})$ depends on the selection of the dataset $\mathcal{D}$. We further get the following <strong>expected</strong> out-of-sample error as
+
+
 $$
 \mathbf{E}_{\mathcal{D}}[E_{\text{out}}(g^{\mathcal{D}})] = \mathbf{E}_{\mathcal{D}}[\mathbf{E}_{\mathbf{x}}[(g^{\mathcal{D}}(\mathbf{x})-f(\mathbf{x}))^2]].
 $$
 
 
 First, let us define
+
+
  $$\bar{g}(\mathbf{x})=\mathbf{E}_{\mathcal{D}}[g^{\mathcal{D}}(\mathbf{x})].$$
 
 After some math manipulations, we can show that
@@ -31,6 +39,9 @@ $$
 +\text{var}(\mathbf{x})],
 $$
 where
+
+
+
 $$\text{bias}(\mathbf{x}) = (\bar{g}(\mathbf{x})-f(\mathbf{x}))^2,$$
 
 and
