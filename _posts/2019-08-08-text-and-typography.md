@@ -4,6 +4,8 @@ author: Cotes Chung
 date: 2019-08-08 11:33:00 +0800
 categories: [Blogging, Demo]
 tags: [typography]
+seo:
+  date_modified: 2020-04-07 02:11:50 +0800
 ---
 
 This Jekyll template totally compatible with Markdown syntax. Now, let's take a look for the text and typography in this theme.
