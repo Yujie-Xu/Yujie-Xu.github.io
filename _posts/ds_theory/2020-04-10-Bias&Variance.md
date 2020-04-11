@@ -1,9 +1,9 @@
 ---
 title: Bias & Variance in Machine Learning
 date: 2020-04-10 -0400
-categories: [Machine Learning, Theory]
-tag: [machine learning]
-mathjax:  true
+categories: [machine-learning, theory]
+tag: [machine-learning]
+mathjax:  False
 ---
 
 {% include mathjax.html %}
