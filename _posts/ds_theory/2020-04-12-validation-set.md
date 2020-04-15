@@ -38,5 +38,28 @@ Therefore, there is a trade of selecting a proper \\(K\\). Rule of thumb is \\(K
 
 <h2> Cross Validation </h2>
 
+Instead of having a separate validation set, people have proposed of "reusing" the data for validation purpose.
+
+One method is <strong>leave-one-out</strong> method. Assume the orginal data set is \\(\mathcal{D}=\{(\mathbf{x}_1, y_1), ...(\mathbf{x}_N, y_N)\}\\). We remove point \\((\mathbf{x}_n, y_n)\\), and denote by \\(\mathcal{D}_n\\) the collection of remaining points. We train on the dataset \\(\mathcal{D}_n\\), and obtain the hypothesis \\(g_n^-\\). We further do the validation on the point \\((\mathbf{x}_n, y_n)\\), and obtain the error as
+\\[
+e_n = e(g_n^-(\mathbf{x}_n), y_n).
+\\]. This process is iterated from the point \\((\mathbf{x}_1, y_1)\\) to the point \\((\mathbf{x}_N, y_N)\\). The average error termed as <strong> cross valication error</strong> is defined as
+\\[
+E\_\{cv\}=\frac{1}{N}\sum\_{n=1}^N e_n .
+\\]
+
+
+It can be shown that for each individual error \\(e_n\\), we have
+
+\\[
+\mathbf{E}\_{\mathcal{D}}[e\_n] = \bar{E}\_{out}(N-1),         (1)
+\\]
+where \\( \bar{E}\_{out}(N) = \mathbf{E}\_{\mathcal{D}}[E_{out}(g)]. \\)
+
+
+* \\( \bar{E}\_{out}(N)\\) is the expected out-of-sample error over the dataset \\(\mathcal{D}\\) of size \\(N\\). Note that \\(\mathcal{D}\\) is the random variable here, and the model is given. Specifically, the model means the mapping from a given dataset to the chosen hypothesis.
+
+* Equation (1) shows that each individual error \\(e_n\\) is an <strong>unbiased estimate </strong> of the expected out-of-sample error trained on a dataset of size \\(N-1\\). Note the expectation is over the dataset of size \\(N-1\\). Hence, \\(E_{cv}\\) is also an <strong> unbiased estimate </strong> of the expected out-of-sample error trained on a dataset of size \\(N-1\\).
+
 
 {% include mathjax_header.html %}
