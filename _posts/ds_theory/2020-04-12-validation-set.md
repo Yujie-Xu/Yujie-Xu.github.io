@@ -62,4 +62,7 @@ where \\( \bar{E}\_{out}(N) = \mathbf{E}\_{\mathcal{D}}[E_{out}(g)]. \\)
 * Equation (1) shows that each individual error \\(e_n\\) is an <strong>unbiased estimate </strong> of the expected out-of-sample error trained on a dataset of size \\(N-1\\). Note the expectation is over the dataset of size \\(N-1\\). Hence, \\(E_{cv}\\) is also an <strong> unbiased estimate </strong> of the expected out-of-sample error trained on a dataset of size \\(N-1\\).
 
 
+
+
+
 {% include mathjax_header.html %}
