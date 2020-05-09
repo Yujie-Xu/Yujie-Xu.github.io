@@ -95,10 +95,13 @@ Based on the standard Lagrangian analysis, the dual problem of $P_3$ is given by
 
 
 $$
-\text{P}_4:  ~~ \min_{\mathbf{\alpha}} \frac{1}{2}\mathbf{\alpha}^T \mathbf{\alpha} - \mathbf{1}^T\mathbf{\alpha} \\
+\text{P}_4:  ~~ \min_{\mathbf{\alpha}} \frac{1}{2}\mathbf{\alpha}^TQ \mathbf{\alpha} - \mathbf{1}^T\mathbf{\alpha} \\
 \text{s.t.} ~~ \mathbf{y}^T\mathbf{\alpha} =0; \\
-\mathbf{0} \leq \mathbf{\alpha} \leq C * \mathbf{1}.
+\mathbf{0} \leq \mathbf{\alpha} \leq C * \mathbf{1},
 $$
+
+
+where $Q=[Q_{ij}]$, and $Q_{ij}=y_iy_j\mathbf{x}_i^T\mathbf{x}_j$.
 
 Let $\alpha^\*, \mathbf{w}^\*, b^\*, \xi_i^\*$ the optimal solution to the dual problme and the original problem. Part of the KKT conditions are
 
@@ -109,8 +112,66 @@ $$
 
 Based on these two equalities, we have the three cases:
 
-(1) if $\alpha_n^* = 0$, then we have $y_n({\mathbf{w}^\*}^T\mathbf{x}_n, b^\*)\leq 1$. Then point $(\mathbf{x}_n, y_n)$ is in the right subspace cut by the corresponding fat-hyperplane.
+(1) if $\alpha_n^* = 0$, then we have $y_n({\mathbf{w}^\*}^T\mathbf{x}_n, b^\*)\geq 1$. Then point $(\mathbf{x}_n, y_n)$ is in the right subspace cut by the corresponding fat-hyperplane. These points are termed __remaining vectors__ in some literature.
 
-(2) if $0< \alpha_n^* < C$, then we have $y_n({\mathbf{w}^\*}^T\mathbf{x}_n, b^\*)=1$. Then point $(\mathbf{x}_n, y_n)$ is on the fat hyperplane.
+(2) if $0< \alpha_n^* < C$, then we have $y_n({\mathbf{w}^\*}^T\mathbf{x}_n, b^\*)=1$. Then point $(\mathbf{x}_n, y_n)$ is on the fat hyperplane. These points are termed __support vectors__.
 
-(3) if $\alpha_n^* = C$, then we have $y_n({\mathbf{w}^\*}^T\mathbf{x}_n, b^\*) \leq 1$. Then point $(\mathbf{x}_n, y_n)$ is in the wrong subspace cut by fat hyperplane.
+(3) if $\alpha_n^* = C$, then we have $y_n({\mathbf{w}^\*}^T\mathbf{x}_n, b^\*) \leq 1$. Then point $(\mathbf{x}_n, y_n)$ is in the wrong subspace cut by fat hyperplane. These points are termed __error vector__.
+
+
+![Validation_illustration]({{ "/assets/img/ds/SVM.png" | relative_url }})
+
+<h1> Non-linear SVM - Kernel Tricks</h1>
+
+Sometimes, the original points in the dataset are not separable. After applying a transformation, $\Phi(\mathbf{x})$, it is easier to separate the points. We name the SVM with this kind of transformation as "_non-linear SVM_". From the dual problem perspetive, the matrix $Q$ in problem $P_4$ becomes
+
+$$Q_{ij}=y_iy_jK(\mathbf{x}_i, \mathbf{x}_j),$$
+
+where $K(\mathbf{x}_i, \mathbf{x}_j) = \Phi(\mathbf{x}_i)^T\Phi(\mathbf{x}_j)$. $K(.)$ is refered to the __kernel__ of the SVM.
+
+
+Now we summarize some common kernels and  corresponding mapping.
+
+* __(Degree-Q polynomial kernel)__  
+  * Kernel:
+
+  $$K(\mathbf{x}, \mathbf{y}) = (\chi+\gamma \mathbf{x}^T\mathbf{y} )^Q,$$
+
+
+  where $Q$ is a natural number
+
+  * Mapping: Expanding the kernel, we can rewrite the kernel as
+
+  $$K(\mathbf{x}, \mathbf{y})=\sum_{k=0}^Q\sum_{k_1+k_2+...+k_D=k}\prod_{d=1}^D {n \choose k}\gamma^k\xi^{Q-k}(x_dy_d)^{k_d},$$  
+
+
+  where $D$
+is the dimension of $\mathbf{x}$. Based on the expansion, it is easy to see one possible mapping is that
+
+   $$\Phi(\mathbf{X})= (...,\sqrt{\prod_{d=1}^D {n \choose k}\gamma^k\xi^{Q-k}}(x_d)^{k_d}, ... ). $$
+
+
+* __(RBF Kernel)__
+  * Kernel:
+
+  $$K(\mathbf{x}, \mathbf{y}) = \exp(-\gamma \|\mathbf{x}-\mathbf{y}\|),$$
+
+    where $\gamma>0$.
+
+  * Mapping: Expanding the kernel, we can rewrite the kernel (with the taylor expasion of $\exp(-x)$) as
+
+  $$K(\mathbf{x}, \mathbf{y})=\sum_{k=0}^{\infty}\prod_{d=1}^D\exp(-(\sqrt{\gamma}x_d)^2)(\frac{2^k (\sqrt{\gamma}x_d)^k(\sqrt{\gamma}y_d)^k}{k!})\exp(-(\sqrt{\gamma}y_d)^2).$$
+
+
+  Based on the expansion, it is easy to see one possible mapping is that
+
+   $$\Phi(\mathbf{X})= (..., 2^{k-1}\prod_{d=1}^D\exp(-(\sqrt{\gamma}x_d)^2)(\frac{ (\sqrt{\gamma}x_d)^k}{\sqrt{k!}}), ... ). $$
+
+
+* __(Sigmoid Kernel)__
+    * Kernel:
+
+    $$K(\mathbf{x}, \mathbf{y}) = \tanh(\gamma \mathbf{x}^T\mathbf{y}+r)$$
+
+
+    * Mapping: Using the taylor expasion of $\tanh(.),$ we can easily find the mapping.
